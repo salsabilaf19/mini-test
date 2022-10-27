@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
-function App() {
+const Square = ({title}) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="square-style">
+      {title}
     </div>
   );
-}
+};
+
+const App = () => {
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+
+  const handleChange = (event) => {
+    setNewTodo(event.target.value);
+  };
+
+  const addNewTodo = () => {
+    // current date
+    setTodos([...todos,{title:  newTodo, id: Date.now() }]);
+  };
+  return (
+    <div>
+      <input value={newTodo} onChange={handleChange}/>
+      <h1>To Do List</h1>
+      <button onClick={addNewTodo}>Add new to do</button>
+
+      <div className="list-container">
+        {todos.map((todo) => {
+          return <Square 
+          title={todo.title} 
+          key={`todo-${todo.id}`} />
+        })}
+      </div>
+    </div>
+  );
+};
 
 export default App;
